@@ -1,3 +1,4 @@
+import traceback
 from typing import Final
 
 from ..listeners.pixelsDiceEventListener import PixelsDiceEventListener
@@ -5,6 +6,7 @@ from ..models.events.absPixelsDiceEvent import AbsPixelsDiceEvent
 from ..models.events.pixelsDiceClientConnectedEvent import PixelsDiceClientConnectedEvent
 from ..models.events.pixelsDiceClientDisconnectedEvent import PixelsDiceClientDisconnectedEvent
 from ..models.events.pixelsDiceRollEvent import PixelsDiceRollEvent
+from ...network.exceptions import GenericNetworkException
 from ...network.networkClientProvider import NetworkClientProvider
 from ...timber.timberInterface import TimberInterface
 
@@ -15,14 +17,18 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
         self,
         networkClientProvider: NetworkClientProvider,
         timber: TimberInterface,
+        baseUrl: str = 'https://127.0.0.1:1337/pixelsDice',
     ):
         if not isinstance(networkClientProvider, NetworkClientProvider):
             raise TypeError(f'networkClientProvider argument is malformed: \"{networkClientProvider}\"')
-        if not isinstance(timber, TimberInterface):
+        elif not isinstance(timber, TimberInterface):
             raise TypeError(f'timber argument is malformed: \"{timber}\"')
+        elif not isinstance(baseUrl, str):
+            raise TypeError(f'baseUrl argument is malformed: \"{baseUrl}\"')
 
         self.__networkClientProvider: Final[NetworkClientProvider] = networkClientProvider
         self.__timber: Final[TimberInterface] = timber
+        self.__baseUrl: Final[str] = baseUrl
 
     async def onNewPixelsDiceEvent(self, event: AbsPixelsDiceEvent):
         if not isinstance(event, AbsPixelsDiceEvent):
@@ -57,5 +63,22 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
         pass
 
     async def __handleRollEvent(self, event: PixelsDiceRollEvent):
-        # this method is currently intentionally empty
-        pass
+        networkClient = await self.__networkClientProvider.get()
+
+        try:
+            response = await networkClient.post(
+                url = f'{self.__baseUrl}/roll',
+                json = {
+                    'diceAddress': event.connectedDice.diceAddress,
+                    'diceName': event.connectedDice.diceName,
+                    'roll': event.roll,
+                },
+            )
+        except GenericNetworkException as e:
+            self.__timber.log('PixelsDiceEventHandler', f'Encountered unknown network exception ({event=})', e, traceback.format_exc())
+            return
+        except Exception as e:
+            self.__timber.log('PixelsDiceEventHandler', f'Encountered unknown exception ({event=})', e, traceback.format_exc())
+            return
+
+        await response.close()

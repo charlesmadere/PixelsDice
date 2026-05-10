@@ -38,6 +38,7 @@ networkClientProvider: Final[NetworkClientProvider] = AioHttpClientProvider(
 pixelsDiceEventListener: Final[PixelsDiceEventListener] = PixelsDiceEventHandler(
     networkClientProvider = networkClientProvider,
     timber = timber,
+    baseUrl = 'https://127.0.0.1:1337/pixelsDice',
 )
 
 pixelsDiceStateMapper: Final[PixelsDiceStateMapperInterface] = PixelsDiceStateMapper()
@@ -47,9 +48,11 @@ pixelsDiceMachine: Final[PixelsDiceMachineInterface] = PixelsDiceMachine(
     pixelsDiceEventListener = pixelsDiceEventListener,
     pixelsDiceStateMapper = pixelsDiceStateMapper,
     timber = timber,
+    pixelsDiceName = 'Dice Boi',
 )
 
 async def main():
+    timber.log('initPixelsDice', 'Starting...')
     pixelsDiceMachine.start()
 
     while True:
