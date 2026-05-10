@@ -5,6 +5,7 @@ from ..models.events.absPixelsDiceEvent import AbsPixelsDiceEvent
 from ..models.events.pixelsDiceClientConnectedEvent import PixelsDiceClientConnectedEvent
 from ..models.events.pixelsDiceClientDisconnectedEvent import PixelsDiceClientDisconnectedEvent
 from ..models.events.pixelsDiceRollEvent import PixelsDiceRollEvent
+from ...network.networkClientProvider import NetworkClientProvider
 from ...timber.timberInterface import TimberInterface
 
 
@@ -12,11 +13,15 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
 
     def __init__(
         self,
+        networkClientProvider: NetworkClientProvider,
         timber: TimberInterface,
     ):
+        if not isinstance(networkClientProvider, NetworkClientProvider):
+            raise TypeError(f'networkClientProvider argument is malformed: \"{networkClientProvider}\"')
         if not isinstance(timber, TimberInterface):
             raise TypeError(f'timber argument is malformed: \"{timber}\"')
 
+        self.__networkClientProvider: Final[NetworkClientProvider] = networkClientProvider
         self.__timber: Final[TimberInterface] = timber
 
     async def onNewPixelsDiceEvent(self, event: AbsPixelsDiceEvent):
