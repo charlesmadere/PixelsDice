@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aiohttp = "3.13.5"
+bleak = { version = "3.0.2", markers = "sys_platform == 'darwin' or sys_platform == 'win32'" }
+frozendict = "2.4.7"
+frozenlist = "1.8.0"
+pytest = "9.0.3"
+pytest-asyncio = "1.3.0"
+requests = "2.33.1"
+
+[dev-packages]
+
+
+[requires]
+python_version = "3.14"
