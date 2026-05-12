@@ -59,6 +59,8 @@ async def main():
         await asyncio.sleep(1)
 
 try:
-    asyncio.run(main())
+    eventLoop.run_until_complete(main())
 except KeyboardInterrupt:
     pass
+finally:
+    eventLoop.close()
