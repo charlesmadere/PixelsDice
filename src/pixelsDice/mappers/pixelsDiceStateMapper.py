@@ -21,7 +21,9 @@ class PixelsDiceStateMapper(PixelsDiceStateMapperInterface):
                 rawData = rawData,
                 roll = rawData[2] + 1,
             )
-
+        elif rawData[0] == ROLL_EVENT and rawData[1] != FINISHED_ROLL_STATE:
+            print('Rolling: ', rawData[2] + 1)
+            
         else:
             # this is considered an unknown/currently unimplemented state
             return None

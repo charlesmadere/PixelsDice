@@ -38,7 +38,7 @@ networkClientProvider: Final[NetworkClientProvider] = AioHttpClientProvider(
 pixelsDiceEventListener: Final[PixelsDiceEventListener] = PixelsDiceEventHandler(
     networkClientProvider = networkClientProvider,
     timber = timber,
-    baseUrl = 'https://127.0.0.1:1337/pixelsDice',
+    baseUrl = 'http://127.0.0.1:3000/api',
 )
 
 pixelsDiceStateMapper: Final[PixelsDiceStateMapperInterface] = PixelsDiceStateMapper()
@@ -48,7 +48,7 @@ pixelsDiceMachine: Final[PixelsDiceMachineInterface] = PixelsDiceMachine(
     pixelsDiceEventListener = pixelsDiceEventListener,
     pixelsDiceStateMapper = pixelsDiceStateMapper,
     timber = timber,
-    pixelsDiceName = 'Dice Boi',
+    pixelsDiceName = 'Pixel8aba49fc',
 )
 
 async def main():
@@ -59,6 +59,8 @@ async def main():
         await asyncio.sleep(1)
 
 try:
-    asyncio.run(main())
+    eventLoop.run_until_complete(main())
 except KeyboardInterrupt:
     pass
+finally:
+    eventLoop.close()

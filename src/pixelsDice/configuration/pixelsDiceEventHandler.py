@@ -17,7 +17,7 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
         self,
         networkClientProvider: NetworkClientProvider,
         timber: TimberInterface,
-        baseUrl: str = 'https://127.0.0.1:1337/pixelsDice',
+        baseUrl: str,
     ):
         if not isinstance(networkClientProvider, NetworkClientProvider):
             raise TypeError(f'networkClientProvider argument is malformed: \"{networkClientProvider}\"')
@@ -71,7 +71,7 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
                 json = {
                     'diceAddress': event.connectedDice.diceAddress,
                     'diceName': event.connectedDice.diceName,
-                    'roll': event.roll,
+                    'faceValue': event.roll,
                 },
             )
         except GenericNetworkException as e:
