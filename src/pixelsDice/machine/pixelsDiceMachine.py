@@ -35,7 +35,7 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
         eventLoopSleepTimeSeconds: float = 0.25,
         queueTimeoutSeconds: int = 3,
         notifyCharacteristicUuid: str = '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
-        pixelsDiceName: str = 'Dice Boi',
+        pixelsDiceName: str = 'Pixel8aba49fc',
     ):
         if not isinstance(backgroundTaskHelper, BackgroundTaskHelperInterface):
             raise TypeError(f'backgroundTaskHelper argument is malformed: \"{backgroundTaskHelper}\"')
