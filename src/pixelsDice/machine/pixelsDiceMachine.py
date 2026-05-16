@@ -111,7 +111,7 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
             self.__timber.log('PixelsDiceMachine', f'Failed to find device with name \"{self.__pixelsDiceName}\" among {len(devices)} device(s): {allDeviceNames}')
             return None
 
-        self.__timber.log('PixelsDiceMachine', f'Found device ({self.__pixelsDiceName=}) ({connectedDice=}) ({diceDevice=}) ({diceAdvertisement=})')
+        self.__timber.log('PixelsDiceMachine', f'Found device ({connectedDice=}) ({diceDevice=}) ({diceAdvertisement=})')
 
         client = BleakClient(
             address_or_ble_device = diceDevice,
