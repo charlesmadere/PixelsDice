@@ -31,8 +31,8 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
         pixelsDiceEventListener: PixelsDiceEventListener,
         pixelsDiceStateMapper: PixelsDiceStateMapperInterface,
         timber: TimberInterface,
-        connectionLoopSleepTimeSeconds: float = 10,
-        eventLoopSleepTimeSeconds: float = 0.25,
+        connectionLoopSleepTimeSeconds: float = 8,
+        eventLoopSleepTimeSeconds: float = 0.125,
         queueTimeoutSeconds: int = 3,
         notifyCharacteristicUuid: str = '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
         pixelsDiceName: str = 'Pixel8aba49fc',
@@ -183,7 +183,7 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
             ))
 
         else:
-            # empty for now, but in the future, we may want to observe other states
+            # empty for now, but in the future, we may want to react to other states
             pass
 
     def start(self):

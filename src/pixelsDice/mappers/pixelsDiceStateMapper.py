@@ -3,11 +3,21 @@ from typing import Any, Final
 from .pixelsDiceStateMapperInterface import PixelsDiceStateMapperInterface
 from ..models.states.absPixelsDiceState import AbsPixelsDiceState
 from ..models.states.pixelsDiceRollState import PixelsDiceRollState
+from ...timber.timberInterface import TimberInterface
 
 FINISHED_ROLL_STATE: Final[int] = 1
 ROLL_EVENT: Final[int] = 3
 
 class PixelsDiceStateMapper(PixelsDiceStateMapperInterface):
+
+    def __init__(
+        self,
+        timber: TimberInterface,
+    ):
+        if not isinstance(timber, TimberInterface):
+            raise TypeError(f'timber argument is malformed: \"{timber}\"')
+
+        self.__timber: Final[TimberInterface] = timber
 
     async def map(
         self,
@@ -21,9 +31,10 @@ class PixelsDiceStateMapper(PixelsDiceStateMapperInterface):
                 rawData = rawData,
                 roll = rawData[2] + 1,
             )
+
         elif rawData[0] == ROLL_EVENT and rawData[1] != FINISHED_ROLL_STATE:
-            print('Rolling: ', rawData[2] + 1)
-            
+            self.__timber.log('PixelsDiceStateMapper', f'Rolling: {rawData[2] + 1}')
+
         else:
             # this is considered an unknown/currently unimplemented state
             return None

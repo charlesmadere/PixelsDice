@@ -17,7 +17,7 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
         self,
         networkClientProvider: NetworkClientProvider,
         timber: TimberInterface,
-        baseUrl: str,
+        baseUrl: str = 'http://127.0.0.1:3000/api',
     ):
         if not isinstance(networkClientProvider, NetworkClientProvider):
             raise TypeError(f'networkClientProvider argument is malformed: \"{networkClientProvider}\"')

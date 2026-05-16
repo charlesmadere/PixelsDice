@@ -38,17 +38,17 @@ networkClientProvider: Final[NetworkClientProvider] = AioHttpClientProvider(
 pixelsDiceEventListener: Final[PixelsDiceEventListener] = PixelsDiceEventHandler(
     networkClientProvider = networkClientProvider,
     timber = timber,
-    baseUrl = 'http://127.0.0.1:3000/api',
 )
 
-pixelsDiceStateMapper: Final[PixelsDiceStateMapperInterface] = PixelsDiceStateMapper()
+pixelsDiceStateMapper: Final[PixelsDiceStateMapperInterface] = PixelsDiceStateMapper(
+    timber = timber,
+)
 
 pixelsDiceMachine: Final[PixelsDiceMachineInterface] = PixelsDiceMachine(
     backgroundTaskHelper = backgroundTaskHelper,
     pixelsDiceEventListener = pixelsDiceEventListener,
     pixelsDiceStateMapper = pixelsDiceStateMapper,
     timber = timber,
-    pixelsDiceName = 'Pixel8aba49fc',
 )
 
 async def main():
