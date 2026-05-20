@@ -63,6 +63,7 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
         pass
 
     async def __handleRollEvent(self, event: PixelsDiceRollEvent):
+        self.__timber.log('PixelsDiceEventHandler', f'Sending roll event HTTP POST request ({event=})')
         networkClient = await self.__networkClientProvider.get()
 
         try:
@@ -82,3 +83,4 @@ class PixelsDiceEventHandler(PixelsDiceEventListener):
             return
 
         await response.close()
+        self.__timber.log('PixelsDiceEventHandler', f'Finished sending roll event HTTP POST request ({event=}) ({response=})')

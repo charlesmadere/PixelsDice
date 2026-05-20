@@ -219,11 +219,16 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
 
             events.freeze()
 
-            for index, event in enumerate(events):
-                try:
-                    await self.__pixelsDiceEventListener.onNewPixelsDiceEvent(event)
-                except Exception as e:
-                    self.__timber.log('PixelsDiceMachine', f'Encountered unknown Exception when looping through events (queue size: {self.__eventQueue.qsize()}) ({len(events)=}) ({index=}) ({event=})', e, traceback.format_exc())
+            if len(events) >= 1:
+                self.__timber.log('PixelsDiceMachine', f'Beginning to emit {len(events)} event(s)...')
+
+                for index, event in enumerate(events):
+                    try:
+                        await self.__pixelsDiceEventListener.onNewPixelsDiceEvent(event)
+                    except Exception as e:
+                        self.__timber.log('PixelsDiceMachine', f'Encountered unknown Exception when looping through events (queue size: {self.__eventQueue.qsize()}) ({len(events)=}) ({index=}) ({event=})', e, traceback.format_exc())
+
+                self.__timber.log('PixelsDiceMachine', f'Finished emitting {len(events)} event(s)')
 
             await asyncio.sleep(self.__eventLoopSleepTimeSeconds)
 
