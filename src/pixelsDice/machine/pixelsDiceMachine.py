@@ -31,7 +31,7 @@ class PixelsDiceMachine(PixelsDiceMachineInterface):
         pixelsDiceEventListener: PixelsDiceEventListener,
         pixelsDiceStateMapper: PixelsDiceStateMapperInterface,
         timber: TimberInterface,
-        connectionLoopSleepTimeSeconds: float = 8,
+        connectionLoopSleepTimeSeconds: float = 3,
         eventLoopSleepTimeSeconds: float = 0.125,
         queueTimeoutSeconds: int = 3,
         notifyCharacteristicUuid: str = '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
